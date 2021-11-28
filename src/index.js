@@ -1,17 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import SeasonDisplay from './SeasonDisplay';
+
+if(module.hot) {
+  module.hot.accept();
+}
+
+const App = function() {
+
+  window.navigator.geolocation.getCurrentPosition( //make the browser try to find geolocalization of user (sometimes asks the permission)
+    (position) => console.log(position), //sucess callback, it's called when the function finds a position
+    (err) => console.log(err) //failure callback, it's called when the function can't find the user's position
+  );
+
+  return ( 
+  
+    <div>
+      <div>Bem vindo!!!!!</div>
+      <SeasonDisplay />
+    </div>
+
+  );
+};
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  <App />,
+  document.querySelector('#root')
+)
