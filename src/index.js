@@ -16,7 +16,15 @@ if(module.hot) {
 // Declaring a class component: react expects a class component to have a render method
 // and a bunch of other methods. That's why we extend React.Component.
 
+// The best place/moment to initailize the state is in the constructor
+
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { lat: null };
+  }
+
+
   render() {
     window.navigator.geolocation.getCurrentPosition(
       position => console.log(position),
