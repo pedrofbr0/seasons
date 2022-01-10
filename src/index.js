@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SeasonDisplay from './SeasonDisplay';
 
 if(module.hot) {
   module.hot.accept();
@@ -18,19 +17,35 @@ if(module.hot) {
 
 // The best place/moment to initailize the state is in the constructor
 
+// It's not a good idea to use the state in the render method. In fact, it's not 
+// the best practice to do some "work", requests, inside of a render method, because
+// it will be called every time the component is rendered.
+
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    // THIS IS THE ONLY SITUATION we do direct
+    // assignment to this.state
     this.state = { lat: null };
+
+    window.navigator.geolocation.getCurrentPosition(
+      position => {
+      // we called setState to update the state
+      this.setState({ lat: position.coords.latitude });
+
+      //Don't ever do this:
+      // this.state.lat = position.coords.latitude;
+    },
+      err => console.log(err)
+    );
+
   }
 
 
   render() {
-    window.navigator.geolocation.getCurrentPosition(
-      position => console.log(position),
-      err => console.log(err)
-    );
-    return <div>Latitude:</div>;
+
+    return <div>Latitude: {this.state.lat}</div>;
   }
 }
 
